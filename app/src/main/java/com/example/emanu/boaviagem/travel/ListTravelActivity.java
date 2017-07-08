@@ -41,17 +41,11 @@ public class ListTravelActivity extends AppCompatActivity  implements
         fab_add_new_travel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 Intent intent = new Intent(ListTravelActivity.this, DetailTravelActivity.class);
                 startActivity(intent);
 
             }
         });
-
-
-
-
-
     }
 
     @Override

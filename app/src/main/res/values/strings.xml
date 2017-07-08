@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Boa viagem</string>
+    <string name="lazer">Lazer</string>
+    <string name="business">Business</string>
+    <string name="trip_detour">Trip detour</string>
+    <string name="accomodation">Accomodation</string>
+    <string name="reason_for_travel">Reason for travel</string>
+    <string name="date_checkin">Arrival date</string>
+    <string name="arrival_date">Arrival Date</string>
+    <string name="departure_date">Departure date</string>
+</resources>

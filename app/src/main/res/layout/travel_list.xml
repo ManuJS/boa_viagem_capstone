@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <!--<EditText-->
-        <!--android:id="@+id/tripDetour"-->
-        <!--android:hint="Digite a mensagem aqui"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content" />-->
-
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/geral_16dp">
 
     <ListView
         android:id="@+id/travel_list"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
     </ListView>
 
 
-    <Button
-        android:id="@+id/btnAdd"
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_add_new_travel"
+        android:layout_margin="@dimen/geral_16dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/add_travel" />
+        android:src="@drawable/ic_new_travel_24dp"
+        android:text="@string/add_travel"
+        app:layout_anchor="@id/travel_list"
+        app:layout_anchorGravity="bottom|end" />
 
-</LinearLayout>
+</android.support.design.widget.CoordinatorLayout>
 

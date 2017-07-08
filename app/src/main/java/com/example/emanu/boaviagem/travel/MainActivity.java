@@ -50,8 +50,8 @@ public class MainActivity extends AppCompatActivity
 
         tripDetour = (EditText)
                 findViewById(R.id.input_trip_detour);
-        btnAddTrip = (Button) findViewById(R.id.btnAdd);
-        btnAddTrip.setOnClickListener(this);
+//        btnAddTrip = (Button) findViewById(R.id.f);
+//        btnAddTrip.setOnClickListener(this);
 
 
         mAdapter = new TravelCursorAdapter(this, null);

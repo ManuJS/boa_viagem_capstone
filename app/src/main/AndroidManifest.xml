@@ -17,6 +17,8 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".travel.DetailTravelActivity"/>+
+
         <provider
             android:name="com.example.emanu.boaviagem.provider.TravelProvider"
             android:authorities="com.example.emanu.boaviagem"

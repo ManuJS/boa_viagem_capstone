@@ -1,11 +1,14 @@
 package com.example.emanu.boaviagem.travel;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.ListView;
 
 import com.example.emanu.boaviagem.R;
@@ -33,6 +36,22 @@ public class ListTravelActivity extends AppCompatActivity  implements
 
         ListView listView = (ListView) findViewById(R.id.travel_list);
         listView.setAdapter(travelCursorAdapter);
+        FloatingActionButton fab_add_new_travel = (FloatingActionButton) findViewById(R.id.fab_add_new_travel);
+
+        fab_add_new_travel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(ListTravelActivity.this, DetailTravelActivity.class);
+                startActivity(intent);
+
+            }
+        });
+
+
+
+
+
     }
 
     @Override

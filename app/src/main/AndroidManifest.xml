@@ -24,6 +24,11 @@
             android:authorities="com.example.emanu.boaviagem"
             android:exported="false" />
 
+        <provider
+            android:name="com.example.emanu.boaviagem.provider.ExpenseDataProvider"
+            android:authorities="com.example.emanu.boaviagem"
+            android:exported="false" />
+
     </application>
 
 </manifest>

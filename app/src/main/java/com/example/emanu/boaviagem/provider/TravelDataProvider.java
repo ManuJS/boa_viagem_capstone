@@ -15,7 +15,7 @@ import com.example.emanu.boaviagem.database.DBHelper;
  * Created by emanu on 08/07/2017.
  */
 
-public class TravelProvider extends ContentProvider {
+public class TravelDataProvider extends ContentProvider {
     // Deve estar igual ao Manifest
     private static final String
             AUTHORITY = "com.example.emanu.boaviagem";
@@ -65,7 +65,7 @@ public class TravelProvider extends ContentProvider {
         switch (uriType) {
             case TYPE_ALL_MESSAGES:
                 id = sqlDB.insert(
-                        DBHelper.TABLE_NAME,
+                        DBHelper.TABLE_NAME_TRAVELS,
                         null,
                         values);
                 break;
@@ -94,7 +94,7 @@ public class TravelProvider extends ContentProvider {
         switch (uriType) {
             case TYPE_ALL_MESSAGES:
                 rowsUpdated = sqlDB.update(
-                        DBHelper.TABLE_NAME,
+                        DBHelper.TABLE_NAME_TRAVELS,
                         values,
                         selection,
                         selectionArgs);
@@ -104,15 +104,15 @@ public class TravelProvider extends ContentProvider {
                 String id = uri.getLastPathSegment();
                 if (TextUtils.isEmpty(selection)) {
                     rowsUpdated = sqlDB.update(
-                            DBHelper.TABLE_NAME,
+                            DBHelper.TABLE_NAME_TRAVELS,
                             values,
-                            DBHelper.COLUMN_ID + "=" + id,
+                            DBHelper.COLUMN_ID_TRAVEL + "=" + id,
                             null);
                 } else {
                     rowsUpdated = sqlDB.update(
-                            DBHelper.TABLE_NAME,
+                            DBHelper.TABLE_NAME_TRAVELS,
                             values,
-                            DBHelper.COLUMN_ID +"="+ id +
+                            DBHelper.COLUMN_ID_TRAVEL +"="+ id +
                                     " and "+ selection,
                             selectionArgs);
                 }
@@ -140,7 +140,7 @@ public class TravelProvider extends ContentProvider {
         switch (uriType) {
             case TYPE_ALL_MESSAGES:
                 rowsDeleted = sqlDB.delete(
-                        DBHelper.TABLE_NAME,
+                        DBHelper.TABLE_NAME_TRAVELS,
                         selection,
                         selectionArgs);
                 break;
@@ -149,13 +149,13 @@ public class TravelProvider extends ContentProvider {
                 String id = uri.getLastPathSegment();
                 if (TextUtils.isEmpty(selection)) {
                     rowsDeleted = sqlDB.delete(
-                            DBHelper.TABLE_NAME,
-                            DBHelper.COLUMN_ID + "=" + id,
+                            DBHelper.TABLE_NAME_TRAVELS,
+                            DBHelper.COLUMN_ID_TRAVEL + "=" + id,
                             null);
                 } else {
                     rowsDeleted = sqlDB.delete(
-                            DBHelper.TABLE_NAME,
-                            DBHelper.COLUMN_ID +"="+ id +
+                            DBHelper.TABLE_NAME_TRAVELS,
+                            DBHelper.COLUMN_ID_TRAVEL +"="+ id +
                                     " and " + selection,
                             selectionArgs);
                 }
@@ -178,7 +178,7 @@ public class TravelProvider extends ContentProvider {
         SQLiteQueryBuilder queryBuilder =
                 new SQLiteQueryBuilder();
 
-        queryBuilder.setTables(DBHelper.TABLE_NAME);
+        queryBuilder.setTables(DBHelper.TABLE_NAME_TRAVELS);
 
         int uriType = sUriMatcher.match(uri);
         Cursor cursor = null;
@@ -199,7 +199,7 @@ public class TravelProvider extends ContentProvider {
 
             case TYPE_SINGLE_MESSAGE:
                 queryBuilder.appendWhere(
-                        DBHelper.COLUMN_ID + "= ?");
+                        DBHelper.COLUMN_ID_TRAVEL + "= ?");
 
                 cursor = queryBuilder.query(
                         db,

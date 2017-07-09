@@ -3,11 +3,9 @@ package com.example.emanu.boaviagem.travel;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
@@ -22,7 +20,7 @@ import android.widget.Toast;
 import com.example.emanu.boaviagem.R;
 import com.example.emanu.boaviagem.adapter.TravelCursorAdapter;
 import com.example.emanu.boaviagem.database.DBHelper;
-import com.example.emanu.boaviagem.provider.TravelProvider;
+import com.example.emanu.boaviagem.provider.TravelDataProvider;
 
 
 /**
@@ -69,11 +67,11 @@ public class MainActivity extends AppCompatActivity
 
         return new CursorLoader(
                 this,
-                TravelProvider.CONTENT_URI,
+                TravelDataProvider.CONTENT_URI,
                 DBHelper.ALL_COLUMNS,
                 null,
                 null,
-                DBHelper.COLUMN_ID);
+                DBHelper.COLUMN_ID_TRAVEL);
     }
 
     @Override
@@ -104,19 +102,19 @@ public class MainActivity extends AppCompatActivity
         values.put(DBHelper.COLUMN_DETOUR, message);
 
         if (isEditing) {
-            String whereClause = DBHelper.COLUMN_ID + " = ?";
+            String whereClause = DBHelper.COLUMN_ID_TRAVEL + " = ?";
             String[] whereArgs = new String[]{
                     String.valueOf(currentMessageId)};
 
             if (TextUtils.isEmpty(message)) {
                 getContentResolver().delete(
-                        TravelProvider.CONTENT_URI,
+                        TravelDataProvider.CONTENT_URI,
                         whereClause,
                         whereArgs);
 
             } else {
                 getContentResolver().update(
-                        TravelProvider.CONTENT_URI,
+                        TravelDataProvider.CONTENT_URI,
                         values,
                         whereClause,
                         whereArgs);
@@ -124,7 +122,7 @@ public class MainActivity extends AppCompatActivity
 
         } else {
             getContentResolver().insert(
-                    TravelProvider.CONTENT_URI,
+                    TravelDataProvider.CONTENT_URI,
                     values);
         }
         isEditing = false;
@@ -138,7 +136,7 @@ public class MainActivity extends AppCompatActivity
         cursor.moveToPosition(position);
 
         long messageId = cursor.getLong(
-                cursor.getColumnIndex(DBHelper.COLUMN_ID));
+                cursor.getColumnIndex(DBHelper.COLUMN_ID_TRAVEL));
 
         String messageText = cursor.getString(
                 cursor.getColumnIndex(DBHelper.COLUMN_DETOUR));

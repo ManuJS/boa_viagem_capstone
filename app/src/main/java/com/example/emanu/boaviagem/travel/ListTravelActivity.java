@@ -8,13 +8,14 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ListView;
 
 import com.example.emanu.boaviagem.R;
 import com.example.emanu.boaviagem.adapter.TravelCursorAdapter;
 import com.example.emanu.boaviagem.database.DBHelper;
-import com.example.emanu.boaviagem.provider.TravelProvider;
+import com.example.emanu.boaviagem.provider.TravelDataProvider;
 import com.facebook.stetho.Stetho;
 
 /**
@@ -25,7 +26,6 @@ public class ListTravelActivity extends AppCompatActivity  implements
         LoaderManager.LoaderCallbacks<Cursor>{
 
     TravelCursorAdapter travelCursorAdapter;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,9 +33,9 @@ public class ListTravelActivity extends AppCompatActivity  implements
         Stetho.initializeWithDefaults(this);
         travelCursorAdapter = new TravelCursorAdapter(this, null);
         getSupportLoaderManager().initLoader(0, null, this);
-
-        ListView listView = (ListView) findViewById(R.id.travel_list);
-        listView.setAdapter(travelCursorAdapter);
+        ListView listViewTravel;
+        listViewTravel = (ListView) findViewById(R.id.travel_list);
+        listViewTravel.setAdapter(travelCursorAdapter);
         FloatingActionButton fab_add_new_travel = (FloatingActionButton) findViewById(R.id.fab_add_new_travel);
 
         fab_add_new_travel.setOnClickListener(new View.OnClickListener() {
@@ -54,11 +54,11 @@ public class ListTravelActivity extends AppCompatActivity  implements
 
         return new CursorLoader(
                 this,
-                TravelProvider.CONTENT_URI,
+                TravelDataProvider.CONTENT_URI,
                 DBHelper.ALL_COLUMNS,
                 null,
                 null,
-                DBHelper.COLUMN_ID);
+                DBHelper.COLUMN_ID_EXPENSES);
     }
 
     @Override

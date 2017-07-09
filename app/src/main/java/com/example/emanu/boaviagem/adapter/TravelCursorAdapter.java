@@ -39,7 +39,7 @@ public class TravelCursorAdapter extends SimpleCursorAdapter {
         txtId.setText(
                 cursor.getString(
                         cursor.getColumnIndex(
-                                DBHelper.COLUMN_ID)));
+                                DBHelper.COLUMN_ID_TRAVEL)));
         txtMessage.setText(
                 cursor.getString(
                         cursor.getColumnIndex(

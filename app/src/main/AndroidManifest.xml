@@ -20,7 +20,7 @@
         <activity android:name=".travel.DetailTravelActivity"/>+
 
         <provider
-            android:name="com.example.emanu.boaviagem.provider.TravelProvider"
+            android:name="com.example.emanu.boaviagem.provider.BoaViagemProvider"
             android:authorities="com.example.emanu.boaviagem"
             android:exported="false" />
 

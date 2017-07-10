@@ -1,4 +1,4 @@
-package com.example.emanu.boaviagem.travel;
+package com.example.emanu.boaviagem.expensive;
 
 import android.content.Intent;
 import android.database.Cursor;
@@ -21,7 +21,7 @@ import com.facebook.stetho.Stetho;
  * Created by emanu on 08/07/2017.
  */
 
-public class ListTravelActivity extends AppCompatActivity  implements
+public class ListExpenseActivity extends AppCompatActivity  implements
         LoaderManager.LoaderCallbacks<Cursor>{
 
     TravelCursorAdapter travelCursorAdapter;
@@ -41,7 +41,7 @@ public class ListTravelActivity extends AppCompatActivity  implements
         fab_add_new_travel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ListTravelActivity.this, DetailTravelActivity.class);
+                Intent intent = new Intent(ListExpenseActivity.this, DetailExpenseActivity.class);
                 startActivity(intent);
 
             }

@@ -15,30 +15,61 @@ import com.example.emanu.boaviagem.database.DBHelper;
  * Created by emanu on 08/07/2017.
  */
 
-public class TravelProvider extends ContentProvider {
+public class BoaViagemProvider extends ContentProvider {
     // Deve estar igual ao Manifest
     private static final String
             AUTHORITY = "com.example.emanu.boaviagem";
+
+    private static final String BASE_PATH_TRAVELS = "travels";
+    private static final String BASE_PATH_EXPENSES = "expenses";
+
+
     // Tipo de acesso que retorna todas as mensagens
-    private static final int TYPE_ALL_MESSAGES = 1;
+    private static final int TYPE_ALL_TRAVELS = 1;
     // Tipo de acesso que retorna apenas uma mensagem
     // usando o id da mesma
-    private static final int TYPE_SINGLE_MESSAGE = 2;
+    private static final int TYPE_SINGLE_TRAVEL = 2;
 
-    private static final String BASE_PATH = "messages";
-    // É através dessa URI que acessamos nosso provider
-    public static final Uri CONTENT_URI = Uri.parse(
-            "content://" + AUTHORITY + "/" + BASE_PATH);
+    // Tipo de acesso que retorna todas os gastos
+    private static final int TYPE_ALL_EXPENSE = 3;
+
+    private static final int TYPE_SINGLE_EXPENSE = 4;
+
+    private static final int TYPE_TRAVEL_EXPENSE = 5;
 
     // Classe para checar se a Uri passada é valida
-    private static final UriMatcher sUriMatcher;
+    private static final UriMatcher uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
+
+    // É através dessa URI que acessamos nosso provider
+    public static final Uri CONTENT_URI = Uri.parse(
+            "content://" + AUTHORITY + "/" + BASE_PATH_TRAVELS);
 
     static {
-        sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
-        sUriMatcher.addURI(AUTHORITY,
-                BASE_PATH, TYPE_ALL_MESSAGES);
-        sUriMatcher.addURI(AUTHORITY,
-                BASE_PATH + "/#", TYPE_SINGLE_MESSAGE);
+
+        uriMatcher.addURI(AUTHORITY,
+                BASE_PATH_TRAVELS,
+                TYPE_ALL_TRAVELS);
+
+        uriMatcher.addURI(AUTHORITY,
+                BASE_PATH_TRAVELS + "/#",
+                TYPE_SINGLE_TRAVEL);
+
+        uriMatcher.addURI(AUTHORITY,
+                BASE_PATH_EXPENSES,
+                TYPE_ALL_EXPENSE);
+
+        uriMatcher.addURI(AUTHORITY,
+                BASE_PATH_EXPENSES + "/#",
+                TYPE_SINGLE_EXPENSE);
+
+        uriMatcher.addURI(AUTHORITY,
+                BASE_PATH_EXPENSES + "/"+ BASE_PATH_TRAVELS + "/#",
+                TYPE_TRAVEL_EXPENSE);
+
+
+
+        uriMatcher.addURI(AUTHORITY,
+                BASE_PATH_TRAVELS + "/#", TYPE_SINGLE_TRAVEL);
     }
 
     private DBHelper mOpenHelper;
@@ -57,13 +88,14 @@ public class TravelProvider extends ContentProvider {
 
     @Override
     public Uri insert(Uri uri, ContentValues values) {
-        int uriType = sUriMatcher.match(uri);
+        int uriType = uriMatcher.match(uri);
+
         SQLiteDatabase sqlDB =
                 mOpenHelper.getWritableDatabase();
         long id = 0;
 
         switch (uriType) {
-            case TYPE_ALL_MESSAGES:
+            case TYPE_ALL_TRAVELS:
                 id = sqlDB.insert(
                         DBHelper.TABLE_NAME,
                         null,
@@ -78,21 +110,21 @@ public class TravelProvider extends ContentProvider {
         getContext().getContentResolver()
                 .notifyChange(uri, null);
 
-        return Uri.parse(BASE_PATH + "/" + id);
+        return Uri.parse(BASE_PATH_TRAVELS + "/" + id);
     }
 
     @Override
     public int update(Uri uri, ContentValues values,
                       String selection, String[] selectionArgs) {
 
-        int uriType = sUriMatcher.match(uri);
+        int uriType = uriMatcher.match(uri);
         SQLiteDatabase sqlDB =
                 mOpenHelper.getWritableDatabase();
 
         int rowsUpdated = 0;
 
         switch (uriType) {
-            case TYPE_ALL_MESSAGES:
+            case TYPE_ALL_TRAVELS:
                 rowsUpdated = sqlDB.update(
                         DBHelper.TABLE_NAME,
                         values,
@@ -100,7 +132,7 @@ public class TravelProvider extends ContentProvider {
                         selectionArgs);
                 break;
 
-            case TYPE_SINGLE_MESSAGE:
+            case TYPE_SINGLE_TRAVEL:
                 String id = uri.getLastPathSegment();
                 if (TextUtils.isEmpty(selection)) {
                     rowsUpdated = sqlDB.update(
@@ -132,20 +164,20 @@ public class TravelProvider extends ContentProvider {
     public int delete(Uri uri, String selection,
                       String[] selectionArgs) {
 
-        int uriType = sUriMatcher.match(uri);
+        int uriType = uriMatcher.match(uri);
         SQLiteDatabase sqlDB =
                 mOpenHelper.getWritableDatabase();
 
         int rowsDeleted = 0;
         switch (uriType) {
-            case TYPE_ALL_MESSAGES:
+            case TYPE_ALL_TRAVELS:
                 rowsDeleted = sqlDB.delete(
                         DBHelper.TABLE_NAME,
                         selection,
                         selectionArgs);
                 break;
 
-            case TYPE_SINGLE_MESSAGE:
+            case TYPE_SINGLE_TRAVEL:
                 String id = uri.getLastPathSegment();
                 if (TextUtils.isEmpty(selection)) {
                     rowsDeleted = sqlDB.delete(
@@ -180,13 +212,13 @@ public class TravelProvider extends ContentProvider {
 
         queryBuilder.setTables(DBHelper.TABLE_NAME);
 
-        int uriType = sUriMatcher.match(uri);
+        int uriType = uriMatcher.match(uri);
         Cursor cursor = null;
         SQLiteDatabase db =
                 mOpenHelper.getWritableDatabase();
 
         switch (uriType) {
-            case TYPE_ALL_MESSAGES:
+            case TYPE_ALL_TRAVELS:
                 cursor = queryBuilder.query(
                         db,
                         projection,
@@ -197,7 +229,7 @@ public class TravelProvider extends ContentProvider {
                         sortOrder);
                 break;
 
-            case TYPE_SINGLE_MESSAGE:
+            case TYPE_SINGLE_TRAVEL:
                 queryBuilder.appendWhere(
                         DBHelper.COLUMN_ID + "= ?");
 

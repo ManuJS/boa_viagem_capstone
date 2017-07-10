@@ -1,4 +1,4 @@
-package com.example.emanu.boaviagem.travel;
+package com.example.emanu.boaviagem.expensive;
 
 import android.content.ContentValues;
 import android.content.Intent;
@@ -18,7 +18,7 @@ import com.example.emanu.boaviagem.provider.BoaViagemProvider;
  * Created by emanu on 08/07/2017.
  */
 
-public class DetailTravelActivity extends AppCompatActivity implements View.OnClickListener {
+public class DetailExpenseActivity extends AppCompatActivity implements View.OnClickListener {
 
     DBHelper databaseHelper;
     EditText editTextTravelpDetour;
@@ -56,7 +56,7 @@ public class DetailTravelActivity extends AppCompatActivity implements View.OnCl
                     BoaViagemProvider.CONTENT_URI,
                     values);
             Toast.makeText(this, "viagem salva", Toast.LENGTH_LONG).show();
-            Intent intent = new Intent(DetailTravelActivity.this, ListTravelActivity.class);
+            Intent intent = new Intent(DetailExpenseActivity.this, ListExpenseActivity.class);
             startActivity(intent);
         }catch (Exception e){
             Toast.makeText(this, "viagem nao salva", Toast.LENGTH_LONG).show();

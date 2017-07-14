@@ -10,16 +10,16 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class DBHelper extends SQLiteOpenHelper {
 
-    public static final String TABLE_NAME = "travels";
+    public static final String TABLE_NAME_TRAVELS = "travels";
     public static final String COLUMN_ID = "_id";
-    public static final String COLUMN_DETOUR="detour";
+    public static final String COLUMN_DETOUR = "detour";
 
     public static final String[] ALL_COLUMNS = {
             COLUMN_ID, COLUMN_DETOUR
     };
 
-    private static final String NOME_BANCO="dbTravels";
-    private static final int    VERSAO_BANCO = 1;
+    private static final String NOME_BANCO = "dbTravels";
+    private static final int VERSAO_BANCO = 1;
 
     public DBHelper(Context context) {
         super(context, NOME_BANCO, null, VERSAO_BANCO);
@@ -28,9 +28,9 @@ public class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(
-                "CREATE TABLE "+ TABLE_NAME +" ("+
-                        COLUMN_ID+" INTEGER PRIMARY KEY AUTOINCREMENT,"+
-                        COLUMN_DETOUR +" TEXT )");
+                "CREATE TABLE " + TABLE_NAME_TRAVELS + " (" +
+                        COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                        COLUMN_DETOUR + " TEXT )");
     }
 
     @Override

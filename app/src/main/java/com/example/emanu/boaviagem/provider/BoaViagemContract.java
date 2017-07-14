@@ -2,10 +2,6 @@ package com.example.emanu.boaviagem.provider;
 
 import android.net.Uri;
 
-/**
- * Created by emanuellemenali on 10/07/17.
- */
-
 public class BoaViagemContract {
 
     // Deve estar igual ao Manifest
@@ -18,8 +14,4 @@ public class BoaViagemContract {
 
     public static final Uri CONTENT_URI_BASE = Uri.parse(
             "content://" + AUTHORITY + "/" );
-
-
-
-
 }

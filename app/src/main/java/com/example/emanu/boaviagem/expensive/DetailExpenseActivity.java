@@ -24,9 +24,6 @@ public class DetailExpenseActivity extends AppCompatActivity implements View.OnC
     EditText editTextTravelpDetour;
     Button buttonSaveTravel;
     TravelCursorAdapter mAdapter;
-    boolean isEditing;
-    long currentMessageId;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,8 +58,5 @@ public class DetailExpenseActivity extends AppCompatActivity implements View.OnC
         }catch (Exception e){
             Toast.makeText(this, "viagem nao salva", Toast.LENGTH_LONG).show();
         }
-
-
     }
-
 }

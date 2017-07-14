@@ -17,12 +17,8 @@ import com.example.emanu.boaviagem.database.DBHelper;
 import com.example.emanu.boaviagem.provider.BoaViagemProvider;
 import com.facebook.stetho.Stetho;
 
-/**
- * Created by emanu on 08/07/2017.
- */
-
-public class ListExpenseActivity extends AppCompatActivity  implements
-        LoaderManager.LoaderCallbacks<Cursor>{
+public class ListExpenseActivity extends AppCompatActivity implements
+        LoaderManager.LoaderCallbacks<Cursor> {
 
     TravelCursorAdapter travelCursorAdapter;
 

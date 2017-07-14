@@ -11,9 +11,6 @@ import android.text.TextUtils;
 
 import com.example.emanu.boaviagem.database.DBHelper;
 
-/**
- * Created by emanu on 08/07/2017.
- */
 
 public class BoaViagemProvider extends ContentProvider {
     // Deve estar igual ao Manifest
@@ -94,23 +91,27 @@ public class BoaViagemProvider extends ContentProvider {
                 mOpenHelper.getWritableDatabase();
         long id = 0;
 
+
+
         switch (uriType) {
+
             case TYPE_ALL_TRAVELS:
-                id = sqlDB.insert(
-                        DBHelper.TABLE_NAME,
-                        null,
-                        values);
-                break;
+                id = sqlDB.insert(BASE_PATH_TRAVELS, null, values);
+                return Uri.withAppendedPath(BoaViagemProvider.CONTENT_URI,
+                        String.valueOf(id));
+
+
+            case TYPE_ALL_EXPENSE:
+                id = sqlDB.insert(BASE_PATH_EXPENSES, null, values);
+                return Uri.withAppendedPath(BoaViagemProvider.CONTENT_URI,
+                        String.valueOf(id));
+
 
             default:
                 throw new IllegalArgumentException(
                         "Unknown URI: " + uri);
         }
 
-        getContext().getContentResolver()
-                .notifyChange(uri, null);
-
-        return Uri.parse(BASE_PATH_TRAVELS + "/" + id);
     }
 
     @Override
@@ -126,7 +127,7 @@ public class BoaViagemProvider extends ContentProvider {
         switch (uriType) {
             case TYPE_ALL_TRAVELS:
                 rowsUpdated = sqlDB.update(
-                        DBHelper.TABLE_NAME,
+                        DBHelper.TABLE_NAME_TRAVELS,
                         values,
                         selection,
                         selectionArgs);
@@ -136,13 +137,13 @@ public class BoaViagemProvider extends ContentProvider {
                 String id = uri.getLastPathSegment();
                 if (TextUtils.isEmpty(selection)) {
                     rowsUpdated = sqlDB.update(
-                            DBHelper.TABLE_NAME,
+                            DBHelper.TABLE_NAME_TRAVELS,
                             values,
                             DBHelper.COLUMN_ID + "=" + id,
                             null);
                 } else {
                     rowsUpdated = sqlDB.update(
-                            DBHelper.TABLE_NAME,
+                            DBHelper.TABLE_NAME_TRAVELS,
                             values,
                             DBHelper.COLUMN_ID +"="+ id +
                                     " and "+ selection,
@@ -172,7 +173,7 @@ public class BoaViagemProvider extends ContentProvider {
         switch (uriType) {
             case TYPE_ALL_TRAVELS:
                 rowsDeleted = sqlDB.delete(
-                        DBHelper.TABLE_NAME,
+                        DBHelper.TABLE_NAME_TRAVELS,
                         selection,
                         selectionArgs);
                 break;
@@ -181,12 +182,12 @@ public class BoaViagemProvider extends ContentProvider {
                 String id = uri.getLastPathSegment();
                 if (TextUtils.isEmpty(selection)) {
                     rowsDeleted = sqlDB.delete(
-                            DBHelper.TABLE_NAME,
+                            DBHelper.TABLE_NAME_TRAVELS,
                             DBHelper.COLUMN_ID + "=" + id,
                             null);
                 } else {
                     rowsDeleted = sqlDB.delete(
-                            DBHelper.TABLE_NAME,
+                            DBHelper.TABLE_NAME_TRAVELS,
                             DBHelper.COLUMN_ID +"="+ id +
                                     " and " + selection,
                             selectionArgs);
@@ -210,7 +211,7 @@ public class BoaViagemProvider extends ContentProvider {
         SQLiteQueryBuilder queryBuilder =
                 new SQLiteQueryBuilder();
 
-        queryBuilder.setTables(DBHelper.TABLE_NAME);
+        queryBuilder.setTables(DBHelper.TABLE_NAME_TRAVELS);
 
         int uriType = uriMatcher.match(uri);
         Cursor cursor = null;
@@ -242,6 +243,35 @@ public class BoaViagemProvider extends ContentProvider {
                         null,
                         null);
                 break;
+
+
+            case TYPE_ALL_EXPENSE:
+                cursor = queryBuilder.query(
+                        db,
+                        projection,
+                        selection,
+                        selectionArgs,
+                        null,
+                        null,
+                        sortOrder);
+//
+//            case TYPE_SINGLE_EXPENSE:
+//
+//                selection = Gasto._ID + " = ?";
+//                selectionArgs = new String[] {uri.getLastPathSegment()};
+//                return database.query(GASTO_PATH, projection,
+//                        selection, selectionArgs, null, null, sortOrder);
+//
+//            case TYPE_TRAVEL_EXPENSE:
+//
+//                selection = Gasto.VIAGEM_ID + " = ?";
+//                selectionArgs = new String[] {uri.getLastPathSegment()};
+//                return database.query(GASTO_PATH, projection,
+//                        selection, selectionArgs, null, null, sortOrder);
+//
+//            default:
+//                throw new IllegalArgumentException("Uri desconhecida");
+//        }
 
             default:
                 throw new IllegalArgumentException(

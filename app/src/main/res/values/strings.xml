@@ -10,4 +10,9 @@
     <string name="departure_date">Departure date</string>
     <string name="add_travel">New travel</string>
     <string name="save_travel">Save travel</string>
+    <string name="expense_description">Expense description</string>
+    <string name="expense_cost">Expense cost</string>
+    <string name="payment_method">Payment method</string>
+    <string name="date_spent">Date spent</string>
+    <string name="save_expense">Save expense</string>
 </resources>

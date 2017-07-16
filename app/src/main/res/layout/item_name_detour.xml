@@ -3,14 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
+    android:layout_height="wrap_content"
+    android:background="@color/colorPrimaryLight"
+    android:padding="@dimen/geral_16dp">
     <TextView
-        android:id="@+id/id_travel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/geral_5dp"
-        android:textSize="16sp"
-        tools:text="Alomoço de negócios - Fogo de chão" />
+        tools:text="Belo Horizonte"
+        android:textSize="24sp"
+        android:textColor="@color/colorWhite"/>
 
 </LinearLayout>

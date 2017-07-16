@@ -257,14 +257,14 @@ public class BoaViagemProvider extends ContentProvider {
 //
 //            case TYPE_SINGLE_EXPENSE:
 //
-//                selection = Gasto._ID + " = ?";
+//                selection = Expense._ID + " = ?";
 //                selectionArgs = new String[] {uri.getLastPathSegment()};
 //                return database.query(GASTO_PATH, projection,
 //                        selection, selectionArgs, null, null, sortOrder);
 //
 //            case TYPE_TRAVEL_EXPENSE:
 //
-//                selection = Gasto.VIAGEM_ID + " = ?";
+//                selection = Expense.VIAGEM_ID + " = ?";
 //                selectionArgs = new String[] {uri.getLastPathSegment()};
 //                return database.query(GASTO_PATH, projection,
 //                        selection, selectionArgs, null, null, sortOrder);

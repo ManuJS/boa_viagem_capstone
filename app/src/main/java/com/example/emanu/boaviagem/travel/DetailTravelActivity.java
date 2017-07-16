@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -41,7 +42,11 @@ public class DetailTravelActivity extends AppCompatActivity implements View.OnCl
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        databaseHelper.close();
+        try{
+        databaseHelper.close();}
+        catch (Exception e){
+            Log.d("Deu ruim", "no voltar");
+        }
     }
 
     @Override

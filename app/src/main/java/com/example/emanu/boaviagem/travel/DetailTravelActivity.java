@@ -58,7 +58,7 @@ public class DetailTravelActivity extends AppCompatActivity implements View.OnCl
 
         try {
             getContentResolver().insert(
-                    BoaViagemProvider.CONTENT_URI,
+                    BoaViagemProvider.CONTENT_URI_TRAVEL,
                     values);
             Toast.makeText(this, "viagem salva", Toast.LENGTH_LONG).show();
             Intent intent = new Intent(DetailTravelActivity.this, ListTravelActivity.class);

@@ -24,22 +24,20 @@ public class TravelCursorAdapter extends SimpleCursorAdapter {
             Context context, Cursor cursor) {
 
         super(context, LAYOUT, cursor,
-                DBHelper.ALL_COLUMNS, null, 0);
+                DBHelper.ALL_COLUMNS_TRAVEL, null, 0);
     }
 
     @Override
     public void bindView(View view, Context context,
                          Cursor cursor) {
 
-        TextView txtMessage = (TextView)
-                view.findViewById(R.id.travel_detour);
-        TextView txtId = (TextView)
-                view.findViewById(R.id.id_travel);
+        TextView txtMessage = view.findViewById(R.id.travel_detour);
+        TextView txtId = view.findViewById(R.id.id_travel);
 
         txtId.setText(
                 cursor.getString(
                         cursor.getColumnIndex(
-                                DBHelper.COLUMN_ID)));
+                                DBHelper.COLUMN_ID_TRAVEL)));
         txtMessage.setText(
                 cursor.getString(
                         cursor.getColumnIndex(

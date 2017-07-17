@@ -13,13 +13,14 @@ import com.example.emanu.boaviagem.database.DBHelper;
 
 
 public class BoaViagemProvider extends ContentProvider {
+
+    private DBHelper mOpenHelper;
     // Deve estar igual ao Manifest
     private static final String
             AUTHORITY = "com.example.emanu.boaviagem";
 
     private static final String BASE_PATH_TRAVELS = "travels";
     private static final String BASE_PATH_EXPENSES = "expenses";
-
 
     // Tipo de acesso que retorna todas as mensagens
     private static final int TYPE_ALL_TRAVELS = 1;
@@ -38,8 +39,11 @@ public class BoaViagemProvider extends ContentProvider {
     private static final UriMatcher uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 
     // É através dessa URI que acessamos nosso provider
-    public static final Uri CONTENT_URI = Uri.parse(
+    public static final Uri CONTENT_URI_TRAVEL = Uri.parse(
             "content://" + AUTHORITY + "/" + BASE_PATH_TRAVELS);
+
+    public static final Uri CONTENT_URI_EXPENSE = Uri.parse(
+            "content://" + AUTHORITY + "/" + BASE_PATH_EXPENSES);
 
     static {
 
@@ -63,13 +67,9 @@ public class BoaViagemProvider extends ContentProvider {
                 BASE_PATH_EXPENSES + "/"+ BASE_PATH_TRAVELS + "/#",
                 TYPE_TRAVEL_EXPENSE);
 
-
-
         uriMatcher.addURI(AUTHORITY,
                 BASE_PATH_TRAVELS + "/#", TYPE_SINGLE_TRAVEL);
     }
-
-    private DBHelper mOpenHelper;
 
     @Override
     public boolean onCreate() {
@@ -91,19 +91,17 @@ public class BoaViagemProvider extends ContentProvider {
                 mOpenHelper.getWritableDatabase();
         long id = 0;
 
-
-
         switch (uriType) {
 
             case TYPE_ALL_TRAVELS:
                 id = sqlDB.insert(BASE_PATH_TRAVELS, null, values);
-                return Uri.withAppendedPath(BoaViagemProvider.CONTENT_URI,
+                return Uri.withAppendedPath(BoaViagemProvider.CONTENT_URI_TRAVEL,
                         String.valueOf(id));
 
 
             case TYPE_ALL_EXPENSE:
                 id = sqlDB.insert(BASE_PATH_EXPENSES, null, values);
-                return Uri.withAppendedPath(BoaViagemProvider.CONTENT_URI,
+                return Uri.withAppendedPath(BoaViagemProvider.CONTENT_URI_EXPENSE,
                         String.valueOf(id));
 
 
@@ -139,13 +137,13 @@ public class BoaViagemProvider extends ContentProvider {
                     rowsUpdated = sqlDB.update(
                             DBHelper.TABLE_NAME_TRAVELS,
                             values,
-                            DBHelper.COLUMN_ID + "=" + id,
+                            DBHelper.COLUMN_ID_TRAVEL + "=" + id,
                             null);
                 } else {
                     rowsUpdated = sqlDB.update(
                             DBHelper.TABLE_NAME_TRAVELS,
                             values,
-                            DBHelper.COLUMN_ID +"="+ id +
+                            DBHelper.COLUMN_ID_TRAVEL +"="+ id +
                                     " and "+ selection,
                             selectionArgs);
                 }
@@ -183,12 +181,12 @@ public class BoaViagemProvider extends ContentProvider {
                 if (TextUtils.isEmpty(selection)) {
                     rowsDeleted = sqlDB.delete(
                             DBHelper.TABLE_NAME_TRAVELS,
-                            DBHelper.COLUMN_ID + "=" + id,
+                            DBHelper.COLUMN_ID_TRAVEL + "=" + id,
                             null);
                 } else {
                     rowsDeleted = sqlDB.delete(
                             DBHelper.TABLE_NAME_TRAVELS,
-                            DBHelper.COLUMN_ID +"="+ id +
+                            DBHelper.COLUMN_ID_TRAVEL +"="+ id +
                                     " and " + selection,
                             selectionArgs);
                 }
@@ -208,10 +206,15 @@ public class BoaViagemProvider extends ContentProvider {
                         String selection, String[] selectionArgs,
                         String sortOrder) {
 
-        SQLiteQueryBuilder queryBuilder =
+        SQLiteQueryBuilder queryBuilderTravel =
                 new SQLiteQueryBuilder();
 
-        queryBuilder.setTables(DBHelper.TABLE_NAME_TRAVELS);
+        queryBuilderTravel.setTables(DBHelper.TABLE_NAME_TRAVELS);
+
+        SQLiteQueryBuilder queryBuilderExpense =
+                new SQLiteQueryBuilder();
+
+        queryBuilderExpense.setTables(DBHelper.TABLE_NAME_EXPENSES);
 
         int uriType = uriMatcher.match(uri);
         Cursor cursor = null;
@@ -220,7 +223,7 @@ public class BoaViagemProvider extends ContentProvider {
 
         switch (uriType) {
             case TYPE_ALL_TRAVELS:
-                cursor = queryBuilder.query(
+                cursor = queryBuilderTravel.query(
                         db,
                         projection,
                         selection,
@@ -231,10 +234,10 @@ public class BoaViagemProvider extends ContentProvider {
                 break;
 
             case TYPE_SINGLE_TRAVEL:
-                queryBuilder.appendWhere(
-                        DBHelper.COLUMN_ID + "= ?");
+                queryBuilderTravel.appendWhere(
+                        DBHelper.COLUMN_ID_TRAVEL + "= ?");
 
-                cursor = queryBuilder.query(
+                cursor = queryBuilderTravel.query(
                         db,
                         projection,
                         selection,
@@ -246,7 +249,7 @@ public class BoaViagemProvider extends ContentProvider {
 
 
             case TYPE_ALL_EXPENSE:
-                cursor = queryBuilder.query(
+                cursor = queryBuilderExpense.query(
                         db,
                         projection,
                         selection,
@@ -254,29 +257,31 @@ public class BoaViagemProvider extends ContentProvider {
                         null,
                         null,
                         sortOrder);
-//
-//            case TYPE_SINGLE_EXPENSE:
-//
-//                selection = Expense._ID + " = ?";
-//                selectionArgs = new String[] {uri.getLastPathSegment()};
-//                return database.query(GASTO_PATH, projection,
-//                        selection, selectionArgs, null, null, sortOrder);
-//
+
+            case TYPE_SINGLE_EXPENSE:
+                queryBuilderExpense.appendWhere(
+                        DBHelper.COLUMN_ID_EXPENSE + "= ?");
+
+                cursor = queryBuilderExpense.query(
+                        db,
+                        projection,
+                        selection,
+                        new String[]{ uri.getLastPathSegment() },
+                        null,
+                        null,
+                        null);
+                break;
+
 //            case TYPE_TRAVEL_EXPENSE:
 //
-//                selection = Expense.VIAGEM_ID + " = ?";
-//                selectionArgs = new String[] {uri.getLastPathSegment()};
-//                return database.query(GASTO_PATH, projection,
-//                        selection, selectionArgs, null, null, sortOrder);
-//
-//            default:
-//                throw new IllegalArgumentException("Uri desconhecida");
-//        }
+//                queryBuilderExpense.appendWhere(
+//                        DBHelper.COLUMN_ID_TRAVEL_EXPENSE + "= " + DBHelper.COLUMN_ID_TRAVEL);
+
 
             default:
-                throw new IllegalArgumentException(
-                        "Unknown URI: " + uri);
+                throw new IllegalArgumentException("Uri desconhecida");
         }
+
 
         cursor.setNotificationUri(
                 getContext().getContentResolver(), uri);

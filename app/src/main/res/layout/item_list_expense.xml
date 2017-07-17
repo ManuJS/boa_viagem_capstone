@@ -1,12 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
+    android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:layout_marginStart="@dimen/geral_16dp"
+    android:layout_marginEnd="@dimen/geral_5dp"
+    android:layout_marginTop="@dimen/geral_16dp"
+    android:layout_marginBottom="@dimen/geral_5dp"
+    android:padding="@dimen/geral_5dp">
 
     <TextView
-        android:id="@+id/id_travel"
+        android:id="@+id/id_expense"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="1"
+        android:padding="@dimen/geral_5dp"
+        android:textSize="16sp"/>
+
+    <TextView
+        android:id="@+id/expense_detail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="@dimen/geral_5dp"

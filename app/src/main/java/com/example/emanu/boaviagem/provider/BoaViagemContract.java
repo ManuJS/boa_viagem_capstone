@@ -1,17 +1,19 @@
 package com.example.emanu.boaviagem.provider;
 
 import android.net.Uri;
+import android.provider.BaseColumns;
 
-public class BoaViagemContract {
+public interface BoaViagemContract extends BaseColumns {
 
-    // Deve estar igual ao Manifest
-    private static final String
-            AUTHORITY = "com.example.emanu.boaviagem";
-    // Tipo de acesso que retorna todas as mensagens
+    String AUTHORITY = "com.example.emanu.boaviagem";
+    Uri BASE_URI = Uri.parse("content://"+ AUTHORITY);
+    Uri URI_TRAVELS = Uri.withAppendedPath(BASE_URI, "travels");
+    Uri URI_EXPENSES = Uri.withAppendedPath(BASE_URI, "expenses");
 
-    private static final String BASE_PATH_TRAVEL = "travels";
-    private static final String BASE_PATH_EXPANSE = "expenses";
+    String TABLE_TRAVEL = "Travel";
+    String TABLE_EXPENSES = "Expenses";
 
-    public static final Uri CONTENT_URI_BASE = Uri.parse(
-            "content://" + AUTHORITY + "/" );
+
+    String TITULO = "titulo";
+    String DESCRICAO = "descricao";
 }

@@ -24,26 +24,25 @@ public class ExpenseCursorAdapter extends SimpleCursorAdapter {
             Context context, Cursor cursor) {
 
         super(context, LAYOUT, cursor,
-                DBHelper.ALL_COLUMNS, null, 0);
+                DBHelper.ALL_COLUMNS_EXPENSE, null, 0);
     }
 
     @Override
     public void bindView(View view, Context context,
                          Cursor cursor) {
 
-        TextView txtMessage = (TextView)
-                view.findViewById(R.id.travel_detour);
-        TextView txtId = (TextView)
-                view.findViewById(R.id.id_travel);
+        TextView txtId = view.findViewById(R.id.expense_detail);
+        TextView txtExpenseDetail = view.findViewById(R.id.id_expense);
 
         txtId.setText(
                 cursor.getString(
                         cursor.getColumnIndex(
-                                DBHelper.COLUMN_ID)));
-        txtMessage.setText(
+                                DBHelper.COLUMN_ID_EXPENSE)));
+
+        txtExpenseDetail.setText(
                 cursor.getString(
                         cursor.getColumnIndex(
-                                DBHelper.COLUMN_DETOUR)));
+                                DBHelper.COLUMN_EXPENSE_DETAIL)));
     }
 
     @Override

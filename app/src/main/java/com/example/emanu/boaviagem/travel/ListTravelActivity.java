@@ -15,16 +15,14 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.example.emanu.boaviagem.R;
 import com.example.emanu.boaviagem.adapter.TravelCursorAdapter;
 import com.example.emanu.boaviagem.database.DBHelper;
-import com.example.emanu.boaviagem.expensive.ListExpenseActivity;
+import com.example.emanu.boaviagem.expense.DetailExpenseActivity;
+import com.example.emanu.boaviagem.expense.ListExpenseActivity;
 import com.example.emanu.boaviagem.provider.BoaViagemProvider;
 import com.facebook.stetho.Stetho;
-
-import static android.R.attr.id;
 
 
 /**
@@ -77,7 +75,7 @@ public class ListTravelActivity extends AppCompatActivity implements
                                         startActivity(intent);
                                         break;
                                     case 1:
-                                        intent = new Intent(ListTravelActivity.this, DetailTravelActivity.class);
+                                        intent = new Intent(ListTravelActivity.this, DetailExpenseActivity.class);
                                         startActivity(intent);
                                         break;
                                 }
@@ -98,11 +96,11 @@ public class ListTravelActivity extends AppCompatActivity implements
 
         return new CursorLoader(
                 this,
-                BoaViagemProvider.CONTENT_URI,
-                DBHelper.ALL_COLUMNS,
+                BoaViagemProvider.CONTENT_URI_TRAVEL,
+                DBHelper.ALL_COLUMNS_TRAVEL,
                 null,
                 null,
-                DBHelper.COLUMN_ID);
+                DBHelper.COLUMN_ID_TRAVEL);
     }
 
     @Override

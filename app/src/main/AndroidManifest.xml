@@ -18,8 +18,8 @@
         </activity>
 
         <activity android:name=".travel.DetailTravelActivity"/>
-        <activity android:name=".expensive.ListExpenseActivity"/>
-        <activity android:name=".expensive.DetailExpenseActivity"/>
+        <activity android:name=".expense.ListExpenseActivity"/>
+        <activity android:name=".expense.DetailExpenseActivity"/>
 
         <provider
             android:name="com.example.emanu.boaviagem.provider.BoaViagemProvider"

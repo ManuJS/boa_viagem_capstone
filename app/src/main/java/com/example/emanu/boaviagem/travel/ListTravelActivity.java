@@ -57,16 +57,13 @@ public class ListTravelActivity extends AppCompatActivity implements
             }
         });
 
+
         listView.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-//                Toast.makeText(getApplicationContext(), "bh "+ position, Toast.LENGTH_SHORT).show();
-
-                // 1. Instantiate an AlertDialog.Builder with its constructor
                 AlertDialog.Builder builder = new AlertDialog.Builder(ListTravelActivity.this);
 
-                builder.setTitle("")
-                        .setItems(R.array.options_array, new DialogInterface.OnClickListener() {
+                builder.setItems(R.array.options_array, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int item) {
                                 Intent intent;
                                 switch (item){
@@ -76,11 +73,11 @@ public class ListTravelActivity extends AppCompatActivity implements
                                         break;
                                     case 1:
                                         intent = new Intent(ListTravelActivity.this, DetailExpenseActivity.class);
+                                        intent.putExtra("id_travel",DBHelper.COLUMN_ID_TRAVEL);
+                                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                         startActivity(intent);
                                         break;
                                 }
-                                // The 'which' argument contains the index position
-                                // of the selected item
                             }
                         });
                 AlertDialog dialog =

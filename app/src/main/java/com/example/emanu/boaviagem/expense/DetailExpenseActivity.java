@@ -53,10 +53,11 @@ public class DetailExpenseActivity extends AppCompatActivity implements View.OnC
         String expenseDetail = editTextExpenseDetail.getText().toString();
 
         ContentValues values = new ContentValues();
-        values.put(DBHelper.COLUMN_EXPENSE_DETAIL, expenseDetail);
+        Bundle bundle = getIntent().getExtras();
 
 
-        try {
+        values.put(DBHelper.COLUMN_EXPENSE_DESCRIPTION, expenseDetail);
+         try {
             getContentResolver().insert(
                     BoaViagemProvider.CONTENT_URI_EXPENSE,
                     values);

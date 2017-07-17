@@ -11,13 +11,13 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DBHelper extends SQLiteOpenHelper {
 
     public static final String TABLE_NAME_TRAVELS = "travels";
-    public static final String COLUMN_ID_TRAVEL = "_id";
+    public static final String COLUMN_ID_TRAVEL = "_id_travel";
     public static final String COLUMN_DETOUR = "detour";
 
     public static final String TABLE_NAME_EXPENSES = "expenses";
-    public static final String COLUMN_ID_EXPENSE = "_id";
-    public static final String COLUMN_ID_TRAVEL_EXPENSE = "_id";
-    public static final String COLUMN_EXPENSE_DETAIL = "expense_description";
+    public static final String COLUMN_ID_EXPENSE = "_id_expense";
+    public static final String COLUMN_ID_TRAVEL_EXPENSE = "_id_travel_expense";
+    public static final String COLUMN_EXPENSE_DESCRIPTION = "expense_description";
 
 
     public static final String[] ALL_COLUMNS_TRAVEL = {
@@ -25,7 +25,7 @@ public class DBHelper extends SQLiteOpenHelper {
     };
 
     public static final String[] ALL_COLUMNS_EXPENSE = {
-            COLUMN_ID_EXPENSE, COLUMN_EXPENSE_DETAIL
+            COLUMN_ID_EXPENSE, COLUMN_EXPENSE_DESCRIPTION
     };
 
     private static final String NOME_BANCO = "dbTravels";
@@ -42,10 +42,18 @@ public class DBHelper extends SQLiteOpenHelper {
                         COLUMN_ID_TRAVEL + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                         COLUMN_DETOUR + " TEXT )");
 
-        db.execSQL(
-                "CREATE TABLE " + TABLE_NAME_EXPENSES + " (" +
-                        COLUMN_ID_EXPENSE + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-                        COLUMN_EXPENSE_DETAIL + " TEXT )");
+//        db.execSQL(
+//                "CREATE TABLE " + TABLE_NAME_EXPENSES + " (" +
+//                        COLUMN_ID_EXPENSE + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+//                        COLUMN_EXPENSE_DESCRIPTION + " TEXT," +
+//        COLUMN_ID_TRAVEL_EXPENSE + " INTEGER," +
+//                        " FOREIGN KEY(" + COLUMN_ID_TRAVEL + ")" +
+//                        ")");
+
+        db.execSQL("CREATE TABLE "+TABLE_NAME_EXPENSES +
+                " ("+ COLUMN_ID_EXPENSE+" INTEGER PRIMARY KEY," +
+                ""+ COLUMN_EXPENSE_DESCRIPTION +" TEXT," +
+                " FOREIGN KEY("+COLUMN_ID_TRAVEL_EXPENSE+") REFERENCES viagem("+COLUMN_ID_TRAVEL+"));");
     }
 
     @Override

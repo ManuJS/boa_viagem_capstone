@@ -42,7 +42,7 @@ public class ExpenseCursorAdapter extends SimpleCursorAdapter {
         txtExpenseDetail.setText(
                 cursor.getString(
                         cursor.getColumnIndex(
-                                DBHelper.COLUMN_EXPENSE_DETAIL)));
+                                DBHelper.COLUMN_EXPENSE_DESCRIPTION)));
     }
 
     @Override

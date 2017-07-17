@@ -34,7 +34,6 @@ public class ListTravelActivity extends AppCompatActivity implements
 
     TravelCursorAdapter travelCursorAdapter;
     ListView listView;
-    final Context context = this;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {

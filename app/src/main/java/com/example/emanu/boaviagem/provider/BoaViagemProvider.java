@@ -15,35 +15,24 @@ import com.example.emanu.boaviagem.database.DBHelper;
 public class BoaViagemProvider extends ContentProvider {
 
     private DBHelper mOpenHelper;
-    // Deve estar igual ao Manifest
     private static final String
             AUTHORITY = "com.example.emanu.boaviagem";
 
     private static final String BASE_PATH_TRAVELS = "travels";
     private static final String BASE_PATH_EXPENSES = "expenses";
 
-    // Tipo de acesso que retorna todas as mensagens
-    private static final int TYPE_ALL_TRAVELS = 1;
-    // Tipo de acesso que retorna apenas uma mensagem
-    // usando o id da mesma
-    private static final int TYPE_SINGLE_TRAVEL = 2;
-
-    // Tipo de acesso que retorna todas os gastos
-    private static final int TYPE_ALL_EXPENSE = 3;
-
-    private static final int TYPE_SINGLE_EXPENSE = 4;
-
-    private static final int TYPE_TRAVEL_EXPENSE = 5;
-
-    // Classe para checar se a Uri passada é valida
-    private static final UriMatcher uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
-
-    // É através dessa URI que acessamos nosso provider
     public static final Uri CONTENT_URI_TRAVEL = Uri.parse(
             "content://" + AUTHORITY + "/" + BASE_PATH_TRAVELS);
 
     public static final Uri CONTENT_URI_EXPENSE = Uri.parse(
             "content://" + AUTHORITY + "/" + BASE_PATH_EXPENSES);
+
+    private static final int TYPE_ALL_TRAVELS = 1;
+    private static final int TYPE_SINGLE_TRAVEL = 2;
+    private static final int TYPE_ALL_EXPENSE = 3;
+    private static final int TYPE_SINGLE_EXPENSE = 4;
+    private static final int TYPE_TRAVEL_EXPENSE = 5;
+    private static final UriMatcher uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 
     static {
 
@@ -64,7 +53,7 @@ public class BoaViagemProvider extends ContentProvider {
                 TYPE_SINGLE_EXPENSE);
 
         uriMatcher.addURI(AUTHORITY,
-                BASE_PATH_EXPENSES + "/"+ BASE_PATH_TRAVELS + "/#",
+                BASE_PATH_EXPENSES + "/" + BASE_PATH_TRAVELS + "/#",
                 TYPE_TRAVEL_EXPENSE);
 
         uriMatcher.addURI(AUTHORITY,
@@ -73,9 +62,8 @@ public class BoaViagemProvider extends ContentProvider {
 
     @Override
     public boolean onCreate() {
-        // Ao criar o Provider, inicializamos o helper
         mOpenHelper = new DBHelper(getContext());
-        return true; // success
+        return true;
     }
 
     @Override
@@ -98,18 +86,15 @@ public class BoaViagemProvider extends ContentProvider {
                 return Uri.withAppendedPath(BoaViagemProvider.CONTENT_URI_TRAVEL,
                         String.valueOf(id));
 
-
             case TYPE_ALL_EXPENSE:
                 id = sqlDB.insert(BASE_PATH_EXPENSES, null, values);
                 return Uri.withAppendedPath(BoaViagemProvider.CONTENT_URI_EXPENSE,
                         String.valueOf(id));
 
-
             default:
                 throw new IllegalArgumentException(
                         "Unknown URI: " + uri);
         }
-
     }
 
     @Override
@@ -143,8 +128,8 @@ public class BoaViagemProvider extends ContentProvider {
                     rowsUpdated = sqlDB.update(
                             DBHelper.TABLE_NAME_TRAVELS,
                             values,
-                            DBHelper.COLUMN_ID_TRAVEL +"="+ id +
-                                    " and "+ selection,
+                            DBHelper.COLUMN_ID_TRAVEL + "=" + id +
+                                    " and " + selection,
                             selectionArgs);
                 }
                 break;
@@ -186,7 +171,7 @@ public class BoaViagemProvider extends ContentProvider {
                 } else {
                     rowsDeleted = sqlDB.delete(
                             DBHelper.TABLE_NAME_TRAVELS,
-                            DBHelper.COLUMN_ID_TRAVEL +"="+ id +
+                            DBHelper.COLUMN_ID_TRAVEL + "=" + id +
                                     " and " + selection,
                             selectionArgs);
                 }
@@ -218,6 +203,7 @@ public class BoaViagemProvider extends ContentProvider {
 
         int uriType = uriMatcher.match(uri);
         Cursor cursor = null;
+
         SQLiteDatabase db =
                 mOpenHelper.getWritableDatabase();
 
@@ -241,12 +227,11 @@ public class BoaViagemProvider extends ContentProvider {
                         db,
                         projection,
                         selection,
-                        new String[]{ uri.getLastPathSegment() },
+                        new String[]{uri.getLastPathSegment()},
                         null,
                         null,
                         null);
                 break;
-
 
             case TYPE_ALL_EXPENSE:
                 cursor = queryBuilderExpense.query(
@@ -266,16 +251,26 @@ public class BoaViagemProvider extends ContentProvider {
                         db,
                         projection,
                         selection,
-                        new String[]{ uri.getLastPathSegment() },
+                        new String[]{uri.getLastPathSegment()},
                         null,
                         null,
                         null);
                 break;
 
-//            case TYPE_TRAVEL_EXPENSE:
-//
-//                queryBuilderExpense.appendWhere(
-//                        DBHelper.COLUMN_ID_TRAVEL_EXPENSE + "= " + DBHelper.COLUMN_ID_TRAVEL);
+            case TYPE_TRAVEL_EXPENSE:
+
+                queryBuilderExpense.appendWhere(
+                        DBHelper.COLUMN_ID_TRAVEL_EXPENSE + "= ?");
+
+                cursor = queryBuilderExpense.query(
+                        db,
+                        projection,
+                        selection,
+                        new String[]{uri.getLastPathSegment()},
+                        null,
+                        null,
+                        null);
+                break;
 
 
             default:

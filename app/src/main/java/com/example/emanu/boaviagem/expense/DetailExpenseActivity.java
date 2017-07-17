@@ -55,6 +55,7 @@ public class DetailExpenseActivity extends AppCompatActivity implements View.OnC
         ContentValues values = new ContentValues();
         values.put(DBHelper.COLUMN_EXPENSE_DETAIL, expenseDetail);
 
+
         try {
             getContentResolver().insert(
                     BoaViagemProvider.CONTENT_URI_EXPENSE,
